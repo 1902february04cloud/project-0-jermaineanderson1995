@@ -5,11 +5,9 @@ from pathlib import Path
 import sys
 import re
 
-#Find Path To Module
+#Modules
 sys.path.append('io')
 import inputoutput as IO
-
-#Modules
 import logging
 #Create A Logger For This Script Only
 logger = logging.getLogger(__name__)
@@ -22,7 +20,6 @@ logger.addHandler(logging_handler)
 def checkIfTrue(username,word):
 	boolean = False
 	open_file = False
-	#txt = Path('database/'+username+'.txt')
 	try:
 		open_file = True
 		with open('database/'+username+'.txt','r') as doc:
@@ -52,7 +49,7 @@ def getBal(username):
 	if IO.checkForData(username):
 		IO.viewBal(username)
 	else:
-		logger.error('Could Not Find '+username+' In The Database')	
+		logger.warning('Could Not Find '+username+' In The Database')	
 
 #Validate Amount
 def valiAmount(amount):
@@ -68,7 +65,6 @@ def deposit(username,password,amount):
 	if IO.deposit(username,password,amount):
 		return True
 	else:
-		logger.error('Could Not Deposit')
 		return False
 
 #Validate And withdraw
@@ -76,7 +72,6 @@ def withdraw(username,password,amount):
 	if IO.withdraw(username,password,amount):
 		return True
 	else:
-		logger.error('Could Not Withdraw')
 		return False
 
 #View Transactions
@@ -87,7 +82,7 @@ def getTrans(username):
 		else:
 			return False
 	else: 
-		logger.error('Could Not Find '+username+' In The Database')	
+		logger.warning(username+' Does Not Exist In The Database')	
 		return False
 
 #View Transactions

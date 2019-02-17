@@ -4,6 +4,8 @@
 import sys
 sys.path.append('service')
 import service as Service
+from getpass import getpass
+import hashlib
 
 #Run Controller
 def run():
@@ -13,11 +15,14 @@ def run():
 	MEMBER = False
 	USERNAME = ''
 	PASSWORD = ''
+	SALT = 'SALT(LOL)'
 	
 	#Main Loop
 	while MAIN:
 		#User Options
 		while USER:
+			HASHER = hashlib.sha1()
+			CON_HASHER = hashlib.sha1()
 			print('~~~~~~~~~~~~~~~~~~~~{User Options}~~~~~~~~~~~~~~~~~~~~')
 			user_input = input('Enter "r" To Register\nEnter "l" To Login\nEnter "e" To Exit Application\n-> ') 
 			#Ignore Case
@@ -27,14 +32,18 @@ def run():
 			if user_input == 'r':
 				print('~~~~~~~~~~~~~~~~~~~~{Register}~~~~~~~~~~~~~~~~~~~~')
 				username = input('Enter New Username\n-> ')
-				password = input('Enter New Password\n-> ')
-				confirm_password = input('Enter New Password Again\n-> ')
+				password = getpass('Enter New Password\n-> ')
+				confirm_password = getpass('Enter New Password Again\n-> ')
 				#Check Database, Validate and Add 
 				if Service.checkForData(username):
 					print('###############[User Already Exist]###############')
 				else:
+					HASHER.update((username + password + SALT).encode('utf-8'))
+					hashed_password = HASHER.hexdigest()
+					CON_HASHER.update((username + confirm_password + SALT).encode('utf-8'))
+					confirm_hashed_password = CON_HASHER.hexdigest()
 					#Validate Andd Add Password
-					if Service.matchPassword(username,password,confirm_password):
+					if Service.matchPassword(username,hashed_password,confirm_hashed_password):
 						print('###############[New User Created]###############')
 					else:
 						print('###############[Password Is Not Valid]###############')
@@ -42,12 +51,15 @@ def run():
 			elif user_input == 'l':
 				print('~~~~~~~~~~~~~~~~~~~~{Login}~~~~~~~~~~~~~~~~~~~~')
 				username = input('Enter Username\n-> ')
-				password = input('Enter Password\n-> ')
+				password = getpass('Enter Password\n-> ')
+				#Hash
+				HASHER.update((username + password + SALT).encode('utf-8'))
+				hashed_password = HASHER.hexdigest()
 				#Check Database
-				if Service.checkIfTrue(username,username) and Service.checkIfTrue(username,password):
+				if Service.checkIfTrue(username,username) and Service.checkIfTrue(username,hashed_password):
 					print('###############[Logged In]###############')
 					USERNAME = username
-					PASSWORD = password
+					PASSWORD = hashed_password
 					USER = False
 					MEMBER = True
 				else: 	

@@ -20,7 +20,6 @@ def checkForData(username):
 		with open('database/'+username+'.txt','r') as doc:
 			return True
 	except:
-		logger.warning(username+' Does Not Exist')
 		return False
 
 #Add New User To Database
@@ -42,6 +41,7 @@ def viewBal(username):
 	#Variable
 	boolean = True
 	count = 0
+	print('\n')
 	try:
 		with open('database/'+username+'.txt','r') as doc:
 			for line in doc:
@@ -55,7 +55,7 @@ def viewBal(username):
 		print('###############Balance###############')
 	except:
 		logger.critical('Could Not Print Balance For '+username)
-
+	return boolean
 #Read Balance:
 def readBal(username):
 	#Variable
@@ -79,6 +79,7 @@ def readBal(username):
 def viewTrans(username):
 	#Variables
 	boolean = False
+	print('\n')
 	try:
 		with open('database/'+username+'_Transaction.txt','r') as doc:
 			for line in doc:
