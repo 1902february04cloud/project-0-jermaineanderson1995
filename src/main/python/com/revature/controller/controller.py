@@ -34,6 +34,14 @@ def run():
 				username = input('Enter New Username\n-> ')
 				password = getpass('Enter New Password\n-> ')
 				confirm_password = getpass('Enter New Password Again\n-> ')
+				#Validate Username
+				if Service.valiUser(username):
+					print('\n')
+				else:
+					print('##########Invalid Username#########\n1. First Character Can Not Be A Number\n2. Atlest 5 Characters Long\n2. No Symbols')
+					break
+			
+
 				#Check Database, Validate and Add 
 				if Service.checkForData(username):
 					print('###############[User Already Exist]###############')
@@ -46,7 +54,7 @@ def run():
 					if Service.matchPassword(username,hashed_password,confirm_hashed_password):
 						print('###############[New User Created]###############')
 					else:
-						print('###############[Password Is Not Valid]###############')
+						print('###############[Passwords Are Not Valid]###############')
 			#Login
 			elif user_input == 'l':
 				print('~~~~~~~~~~~~~~~~~~~~{Login}~~~~~~~~~~~~~~~~~~~~')
@@ -86,7 +94,8 @@ def run():
 			#View Balance
 			if member_input == 'v':
 				Service.getBal(USERNAME)
-		
+				print('###############Balance###############')
+
 			#Deposit Money	
 			elif member_input == 'd':
 				print('~~~~~~~~~~~~~{Enter Amount To Deposit}~~~~~~~~~~~~~~~~')

@@ -1,1 +1,2 @@
-2019-02-17 15:58:36.266625 Deposit In The Amount Of 12021.30
+2019-02-18 21:18:12.256068 Deposit In The Amount Of 100232.52
+2019-02-18 21:18:30.228782 Withdrawal In The Amount Of 0.5

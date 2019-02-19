@@ -8,6 +8,8 @@ import re
 #Modules
 sys.path.append('io')
 import inputoutput as IO
+sys.path.append('error')
+import error
 import logging
 #Create A Logger For This Script Only
 logger = logging.getLogger(__name__)
@@ -28,7 +30,7 @@ def checkIfTrue(username,word):
 				if line == word:
 					boolean = True
 		if boolean == False and open_file == True:
-			logger.warning('Could Not Find '+word+' In '+username+'\'s Database')		
+			logger.warning('Login Password Did Not Match '+username+'\'s Database')		
 	except:
 		logger.error('Could Not Find '+username+' In The Database')	
 	return boolean
@@ -60,6 +62,21 @@ def valiAmount(amount):
 		logger.warning('Invalid Deposit Amount')
 		return False
 
+#Validate Username
+def valiUser(username):
+	'''
+	Username Must:
+	
+	1. First Character Can Not Be A Number
+	1. Has To Be Atleast 5 Characters Long
+	2. Can Not Contain Symbols
+	''' 
+	pattern = re.compile('^[A-za-z][0-9A-Za-z]{4,}$')
+	if pattern.match(username):
+		return True
+	else:
+		return False
+
 #Validate And Deposit
 def deposit(username,password,amount):
 	if IO.deposit(username,password,amount):
@@ -88,3 +105,6 @@ def getTrans(username):
 #View Transactions
 def checkForData(username):
 	return IO.checkForData(username)
+
+def CheckError(error):
+	print('From Function: Error')
