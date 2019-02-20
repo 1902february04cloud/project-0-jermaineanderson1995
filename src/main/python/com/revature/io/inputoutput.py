@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-'''
-1. Add returns to all functions
-'''
+
 #Modules
 from pathlib import Path
 import logging

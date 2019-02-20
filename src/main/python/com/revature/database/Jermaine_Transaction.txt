@@ -1,3 +1,0 @@
-Tue Feb 19 20:55:35 2019 Deposit In The Amount Of 100.00
-Tue Feb 19 20:55:38 2019 Withdrawal In The Amount Of 10.0
-Tue Feb 19 20:55:40 2019 Withdrawal In The Amount Of 15.0

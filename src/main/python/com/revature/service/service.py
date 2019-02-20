@@ -4,13 +4,12 @@
 from pathlib import Path
 import sys
 import re
-
-#Modules
 sys.path.append('io')
 import inputoutput as IO
 sys.path.append('error')
 from error import *
 import logging
+
 #Create A Logger For This Script Only
 logger = logging.getLogger(__name__)
 logging_format = logging.Formatter('%(asctime)s:%(levelname)s:%(message)s')
@@ -33,7 +32,7 @@ def checkIfTrue(username,word):
 			#raise WarningError
 			print('')
 	except:
-		logger.warning('Login Password Did Not Match '+username+'\'s Database')		
+		logger.warning('Could Not Log Into '+username)		
 	return boolean
 
 #Check Is Passwords Match
