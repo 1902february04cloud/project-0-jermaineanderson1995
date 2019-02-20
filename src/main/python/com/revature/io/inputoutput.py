@@ -5,7 +5,7 @@
 #Modules
 from pathlib import Path
 import logging
-from datetime import datetime
+import time
 import sys
 sys.path.append('error')
 from error import *
@@ -114,7 +114,7 @@ def deposit(username,password,amount):
 			doc.write(username+'\n')
 			doc.write(password+'\n')
 			doc.write(balance+'\n')
-			message = str(datetime.now())+' Deposit In The Amount Of '+amount
+			message = str(time.ctime())+' Deposit In The Amount Of '+amount
 			record(username,message)
 			boolean = True
 		if boolean == False:
@@ -145,7 +145,7 @@ def withdraw(username,password,amount):
 							doc.write(username+'\n')
 							doc.write(password+'\n')
 							doc.write(balance+'\n')
-							message = str(datetime.now())+' Withdrawal In The Amount Of '+amount
+							message = str(time.ctime())+' Withdrawal In The Amount Of '+amount
 							record(username,message)
 							boolean = True
 					else:
@@ -153,9 +153,9 @@ def withdraw(username,password,amount):
 		if boolean == False:
 			raise Error
 	except WarningError:
-		logger.warning(username+' Has Insufficient Funds')	
+		logger.warning(username+' Has Insufficient Funds To Widthdraw '+amount)	
 	except Error:
-		logger.error(username+' Could Not Withdraw To Database')
+		logger.error(username+' Could Not Withdraw From The Database')
 	return boolean
 
 #Record Transaction

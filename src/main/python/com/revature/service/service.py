@@ -9,7 +9,7 @@ import re
 sys.path.append('io')
 import inputoutput as IO
 sys.path.append('error')
-import error
+from error import *
 import logging
 #Create A Logger For This Script Only
 logger = logging.getLogger(__name__)
@@ -30,35 +30,48 @@ def checkIfTrue(username,word):
 				if line == word:
 					boolean = True
 		if boolean == False and open_file == True:
-			logger.warning('Login Password Did Not Match '+username+'\'s Database')		
+			#raise WarningError
+			print('')
 	except:
-		logger.error('Could Not Find '+username+' In The Database')	
+		logger.warning('Login Password Did Not Match '+username+'\'s Database')		
 	return boolean
 
 #Check Is Passwords Match
 def matchPassword(username,password1, password2):
-	if password1 == password2:
-		if IO.addUser(username,password1):
-			return True
+	try:
+		if password1 == password2:
+			if IO.addUser(username,password1):
+				return True
+			else:
+				raise Error
 		else:
-			return False
-	else:	
-		logger.warning('Passwords Do Not Match')
+			raise WarningError	
+	except WarningError:
+		logger.warning('Register Passwords Do Not Match')
 		return False
-
+	except Error:
+		logger.error('Could Not Add User')
+		return False
+	
 #View Balance
 def getBal(username):
-	if IO.checkForData(username):
-		IO.viewBal(username)
-	else:
+	try:
+		if IO.checkForData(username):
+			IO.viewBal(username)
+		else:
+			raise WarningError
+	except WarningError:
 		logger.warning('Could Not Find '+username+' In The Database')	
 
 #Validate Amount
 def valiAmount(amount):
 	pattern = re.compile('^[0-9]*\.[0-9][0-9]$')
-	if pattern.match(amount):
-		return True
-	else:
+	try:
+		if pattern.match(amount):
+			return True
+		else:
+			raise WarningError
+	except WarningError:	
 		logger.warning('Invalid Deposit Amount')
 		return False
 
@@ -72,39 +85,55 @@ def valiUser(username):
 	2. Can Not Contain Symbols
 	''' 
 	pattern = re.compile('^[A-za-z][0-9A-Za-z]{4,}$')
-	if pattern.match(username):
-		return True
-	else:
+	try:
+		if pattern.match(username):
+			return True
+		else:
+			raise WarningError
+	except WarningError:
+		logger.warning(username+' Was Not Valid')
 		return False
 
 #Validate And Deposit
 def deposit(username,password,amount):
-	if IO.deposit(username,password,amount):
-		return True
-	else:
+	try:
+		if IO.deposit(username,password,amount):
+			return True
+		else:
+			raise WarningError
+	except WarningError:
+		logger.warning('Could Not Deposit '+amount+' For '+username)
 		return False
 
 #Validate And withdraw
 def withdraw(username,password,amount):
-	if IO.withdraw(username,password,amount):
-		return True
-	else:
+	try:
+		if IO.withdraw(username,password,amount):
+			return True
+		else:
+			raise WarningError
+	except WarningError:
+		logger.warning('Could Not Withdraw '+amount+' For '+username)
 		return False
 
 #View Transactions
 def getTrans(username):
-	if IO.checkForData(username):
-		if IO.viewTrans(username):
-			return True
-		else:
-			return False
-	else: 
+	try:
+		if IO.checkForData(username):
+			if IO.viewTrans(username):
+				return True
+			else:
+				raise Error
+		else: 
+			raise WarningError
+	except WarningError:
 		logger.warning(username+' Does Not Exist In The Database')	
+		return False
+	except Error:
+		logger.error('Could Not Print Transactions For '+username)
 		return False
 
 #View Transactions
 def checkForData(username):
 	return IO.checkForData(username)
 
-def CheckError(error):
-	print('From Function: Error')

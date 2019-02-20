@@ -1,13 +1,3 @@
-#Add New User To Database
-def addUser(Username,Password):
-	boolean = False
-	with open(Username+'.txt','w') as doc:
-		doc.write(Username+'\n')
-		doc.write(Password+'\n')
-		boolean = True
-		print('####Test User Added Successful####')
-	if boolean == False:
-		print('####Test User Add Failed####')	
 #Login
 def login(Username,Password):
 	boolean = False
@@ -19,3 +9,20 @@ def login(Username,Password):
 				print('####Login Successful####')
 	if boolean == False:
 		print('####Login Failed####')
+
+#Deposit
+def deposit(Username,Password,Amount):
+	boolean = False
+	count = 0
+	if Amount.isnumeric():
+		with open(Username+'.txt','w') as doc:
+			doc.write(Username+'\n')
+			doc.write(Password+'\n')
+			doc.write(Amount+'\n')
+			boolean = True
+			print('#####Deposit Successful#####')
+		if boolean == False:
+			print('#####Deposit Failed#####')
+	else:
+		print('#####Invalid Deposit#####')
+	
